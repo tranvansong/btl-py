@@ -1,6 +1,6 @@
 import os
 from tkinter import *
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 import googletrans
 from googletrans import Translator
 from gtts import gTTS
@@ -42,7 +42,6 @@ def speak_text1():
     playsound("test1.mp3")
     os.remove("test1.mp3")
 
-
 def speak_text2():
     t = text2.get(1.0, END)
     v = box2.get()
@@ -54,13 +53,20 @@ def speak_text2():
     playsound("test2.mp3")
     os.remove("test2.mp3")
 
+def open_file():
+    tf = filedialog.askopenfilename(initialdir="C:/", title="Open file", filetypes=(("Text Files", "*.txt"),))
+    tf = open(tf, 'r')
+    data = tf.read()
+    text1.delete(1.0, END)
+    text1.insert(END, data)
+    tf.close()
+
+
+
+
 
 icon_img = PhotoImage(file = "icon.png")
 root.iconphoto(False, icon_img)
-
-# change_img = PhotoImage(file = "change1.png")
-# img_label = Label(root,image= change_img, width=100)
-# img_label.place(x = 460, y = 100)
 
 language = googletrans.LANGUAGES
 languageList = list(map(lambda x: x.title(), language.values())) # list languages in the world
@@ -131,6 +137,10 @@ translate = Button(root, text="Translate", font=("Arial", 16), activebackground=
 translate.place(x=460, y = 250)
 
 label_change()
+
+# open_file button
+open_file = Button(root, text="Upload file text to translate", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=open_file)
+open_file.place(x=110, y=385)
 
 # loop 
 root.mainloop()
