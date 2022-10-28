@@ -8,7 +8,7 @@ from playsound import playsound
 import speech_recognition as sr
 from os import path
 from pydub import AudioSegment
-
+from PyPDF2 import PdfFileReader
 
 root = Tk()
 root.title("Phần mềm dịch ngôn ngữ pro")
@@ -25,12 +25,23 @@ def label_change():
     root.after(100, label_change) # sau 0.1s thi doi
 
 #translate text
+
 def translate_now():
-    t = text1.get(1.0,END)
-    trans = Translator()
-    trans1 = trans.translate(text=t, src=box1.get(), dest=box2.get())
-    text2.delete(1.0,END)
-    text2.insert(END, trans1.text)
+    try:
+        t = text1.get(1.0,END)
+        trans = Translator()
+        trans1 = trans.translate(text=t, src=box1.get(), dest=box2.get())
+        text2.delete(1.0,END)
+        text2.insert(END, trans1.text)
+    except:
+        open_popup()
+
+#open popup error
+def open_popup():
+   top= Toplevel(root)
+   top.geometry("600x250")
+   top.title("Error")
+   Label(top, text= "Bạn chưa chọn ngôn ngữ", font=('Roboto 18 bold')).place(x=150,y=80)
 
 
 def speak_text1():
@@ -65,6 +76,22 @@ def open_file():
     text1.delete(1.0, END)
     text1.insert(END, data)
     tf.close()
+
+#open file pdf
+def pdf_trans():
+    pdf_file = filedialog.askopenfilename(initialdir="C:/Desktop", title= "Open your pdf file", filetypes=(("PDF Files", "*.pdf"),))
+    
+    reader = PdfFileReader(pdf_file)
+    num_pages = reader.numPages
+    
+    total_text = ""
+    
+    for p in range(num_pages):
+        page = reader.getPage(p)
+        pdf_text_page = page.extract_text()
+        total_text = total_text + pdf_text_page 
+    text1.delete(1.0, END)
+    text1.insert(END, total_text)
 
 #upload file audio
 def upload_file_audio():
@@ -170,6 +197,10 @@ open_file.place(x=110, y=385)
 # upload file audio button
 upload_file_audio = Button(root, text="Upload file audio(.mp3,.wav)", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=upload_file_audio)
 upload_file_audio.place(x = 60, y = 430)
+
+#open file pdf button
+open_pdf = Button(root, text = "Choose pdf file to translate", font = ("Roboto", 12), cursor="hand2", padx=5, pady=5, command=pdf_trans)
+open_pdf.place(x = 320, y = 385)
 
 
 # loop 
