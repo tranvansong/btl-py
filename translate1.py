@@ -5,11 +5,13 @@ import googletrans
 from googletrans import Translator
 from gtts import gTTS
 from playsound import playsound
-
+import speech_recognition as sr
+from os import path
+from pydub import AudioSegment
 
 
 root = Tk()
-root.title("Phan mem dich ngon ngu")
+root.title("Phần mềm dịch ngôn ngữ pro")
 root.geometry("1080x500")
 root.resizable(False, False)
 root.configure(background="white")
@@ -22,7 +24,7 @@ def label_change():
     
     root.after(100, label_change) # sau 0.1s thi doi
 
-
+#translate text
 def translate_now():
     t = text1.get(1.0,END)
     trans = Translator()
@@ -53,16 +55,39 @@ def speak_text2():
     playsound("test2.mp3")
     os.remove("test2.mp3")
 
+
+#open file text
 def open_file():
     tf = filedialog.askopenfilename(initialdir="C:/", title="Open file", filetypes=(("Text Files", "*.txt"),))
     tf = open(tf, 'r')
+    print(tf.name)
     data = tf.read()
     text1.delete(1.0, END)
     text1.insert(END, data)
     tf.close()
 
+#upload file audio
+def upload_file_audio():
+    tf = filedialog.askopenfilename(initialdir="C:/", title="Open file", filetypes=(("Audio Files", "*.mp3"),))
+    tf = open(tf, 'r')
+    sound = AudioSegment.from_mp3(tf.name)
+    sound.export("transcript.wav", format="wav")
 
 
+# transcribe audio file                                                         
+    AUDIO_FILE = "transcript.wav"
+    s = ""
+# use the audio file as the audio source                                        
+    r = sr.Recognizer()
+    with sr.AudioFile(AUDIO_FILE) as source:
+        audio = r.record(source)  # read the entire audio file                  
+
+        # print("Transcription: " + r.recognize_google(audio))
+        s+=r.recognize_google(audio)
+    print(s)
+    text1.delete(1.0, END)
+    text1.insert(END, s)
+    tf.close()
 
 
 icon_img = PhotoImage(file = "icon.png")
@@ -138,9 +163,14 @@ translate.place(x=460, y = 250)
 
 label_change()
 
-# open_file button
+# open_file text button
 open_file = Button(root, text="Upload file text to translate", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=open_file)
 open_file.place(x=110, y=385)
+
+# upload file audio button
+upload_file_audio = Button(root, text="Upload file audio(.mp3,.wav)", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=upload_file_audio)
+upload_file_audio.place(x = 60, y = 430)
+
 
 # loop 
 root.mainloop()

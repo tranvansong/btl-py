@@ -3,6 +3,8 @@ import googletrans
 from googletrans import Translator
 from playsound import playsound
 import speech_recognition as sr
+from pydub import AudioSegment
+
 
 # print(googletrans.LANGUAGES)
 translator = Translator()
@@ -14,8 +16,8 @@ mytext = res.text
 # Language in which you want to convert
 language = res.dest # language = en
 
-print(res.dest)
-print(googletrans.LANGUAGES)
+# print(res.dest)
+# print(googletrans.LANGUAGES)
 # Passing the text and language to the engine, 
 # here we have marked slow=False. Which tells 
 # the module that the converted audio should 
@@ -27,8 +29,11 @@ myobj = gTTS(text=mytext, lang=language, slow=False)
 myobj.save("test.mp3")
 playsound("test.mp3")
 
-filename = "i2lbj3e.mp3"
+sound = AudioSegment.from_mp3("i2lbj3e.mp3")
+sound.export("i2lbj3e.wav", format="wav")
+filename = "i2lbj3e.wav"
 r = sr.Recognizer()
+
 
 with sr.AudioFile(filename) as source:
     # listen for the data (load audio to memory)
