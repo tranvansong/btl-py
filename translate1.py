@@ -1,4 +1,5 @@
 import os
+import time
 from tkinter import *
 from tkinter import ttk, messagebox, filedialog
 import googletrans
@@ -9,6 +10,7 @@ import speech_recognition as sr
 from os import path
 from pydub import AudioSegment
 from PyPDF2 import PdfFileReader
+
 
 root = Tk()
 root.title("Phần mềm dịch ngôn ngữ pro")
@@ -103,13 +105,11 @@ def upload_file_audio():
 
 # transcribe audio file                                                         
     AUDIO_FILE = "transcript.wav"
-    s = ""
-# use the audio file as the audio source                                        
+    s = ""                                       
     r = sr.Recognizer()
     with sr.AudioFile(AUDIO_FILE) as source:
         audio = r.record(source)  # read the entire audio file                  
 
-        # print("Transcription: " + r.recognize_google(audio))
         s+=r.recognize_google(audio)
     print(s)
     text1.delete(1.0, END)
@@ -191,17 +191,16 @@ translate.place(x=460, y = 250)
 label_change()
 
 # open_file text button
-open_file = Button(root, text="Upload file text to translate", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=open_file)
-open_file.place(x=110, y=385)
+open_file_text = Button(root, text="Upload file text to translate", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=open_file)
+open_file_text.place(x=110, y=385)
 
 # upload file audio button
-upload_file_audio = Button(root, text="Upload file audio(.mp3,.wav)", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=upload_file_audio)
-upload_file_audio.place(x = 60, y = 430)
+upload_file_audio_va = Button(root, text="Upload file audio(.mp3)", font=("Roboto", 12), cursor="hand2", padx=5, pady=5, command=upload_file_audio)
+upload_file_audio_va.place(x = 60, y = 430)
 
 #open file pdf button
 open_pdf = Button(root, text = "Choose pdf file to translate", font = ("Roboto", 12), cursor="hand2", padx=5, pady=5, command=pdf_trans)
 open_pdf.place(x = 320, y = 385)
-
 
 # loop 
 root.mainloop()
