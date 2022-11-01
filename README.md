@@ -12,5 +12,5 @@ python translate1.py
 ```
 
 ### Sample run 
-![](demo.png)
+![](img_and_test/demo.png)
 
