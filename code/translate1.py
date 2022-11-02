@@ -1,5 +1,4 @@
 import os
-import time
 from tkinter import *
 from tkinter import ttk, messagebox, filedialog
 import googletrans
@@ -10,13 +9,6 @@ import speech_recognition as sr
 from os import path
 from pydub import AudioSegment
 from PyPDF2 import PdfFileReader
-
-
-root = Tk()
-root.title("Phần mềm dịch ngôn ngữ pro")
-root.geometry("1080x500")
-root.resizable(False, False)
-root.configure(background="white")
 
 def label_change():
     b1 = box1.get()
@@ -116,6 +108,12 @@ def upload_file_audio():
     text1.insert(END, s)
     tf.close()
 
+
+root = Tk()
+root.title("Phần mềm dịch ngôn ngữ pro")
+root.geometry("1080x500")
+root.resizable(False, False)
+root.configure(background="white")
 
 icon_img = PhotoImage(file = "img_and_test/icon.png")
 root.iconphoto(False, icon_img)

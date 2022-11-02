@@ -1,4 +1,4 @@
-## Instgram profile information
+## profile information
 
 ### install packages 
 ```
@@ -11,6 +11,6 @@ pip install -r requirements.txt
 python translate1.py
 ```
 
-### Sample run 
+### tuan tu cong viec 
 ![](demo.png)
 
