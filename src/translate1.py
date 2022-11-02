@@ -28,14 +28,15 @@ def translate_now():
         text2.delete(1.0,END)
         text2.insert(END, trans1.text)
     except:
-        open_popup()
+        open_popup("Bạn chưa chọn ngôn ngữ để dịch")
 
 #open popup error
-def open_popup():
+def open_popup(msg):
    top= Toplevel(root)
    top.geometry("600x250")
    top.title("Error")
-   Label(top, text= "Bạn chưa chọn ngôn ngữ", font=('Roboto 18 bold')).place(x=150,y=80)
+
+   Label(top, text= msg, font=('Roboto 18 bold')).place(x=150,y=80)
 
 
 def speak_text1():
@@ -63,7 +64,7 @@ def speak_text2():
 
 #open file text
 def open_file():
-    tf = filedialog.askopenfilename(initialdir="C:/", title="Open file", filetypes=(("Text Files", "*.txt"),))
+    tf = filedialog.askopenfilename( title="Open file", filetypes=(("Text Files", "*.txt"),))
     tf = open(tf, 'r')
     print(tf.name)
     data = tf.read()
@@ -73,7 +74,7 @@ def open_file():
 
 #open file pdf
 def pdf_trans():
-    pdf_file = filedialog.askopenfilename(initialdir="C:/Desktop", title= "Open your pdf file", filetypes=(("PDF Files", "*.pdf"),))
+    pdf_file = filedialog.askopenfilename( title= "Open your pdf file", filetypes=(("PDF Files", "*.pdf"),))
     
     reader = PdfFileReader(pdf_file)
     num_pages = reader.numPages
@@ -89,7 +90,7 @@ def pdf_trans():
 
 #upload file audio
 def upload_file_audio():
-    tf = filedialog.askopenfilename(initialdir="C:/", title="Open file", filetypes=(("Audio Files", "*.mp3"),))
+    tf = filedialog.askopenfilename(title="Open file", filetypes=(("Audio Files", "*.mp3"),))
     tf = open(tf, 'r')
     sound = AudioSegment.from_mp3(tf.name)
     sound.export("res/transcript.wav", format="wav")
@@ -107,6 +108,24 @@ def upload_file_audio():
     text1.delete(1.0, END)
     text1.insert(END, s)
     tf.close()
+
+# export txt
+def export_to_txt():
+    
+        
+
+    f = filedialog.asksaveasfile(initialfile = 'Untitled.txt',
+defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Documents","*.txt")])
+    if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+        return
+    text2save = str(text2.get(1.0, END)) # starts from `1.0`, not `0.0`
+    
+        
+    f.write(text2save)
+    f.close() # `()` was missing.
+    
+
+
 
 try:
     from ctypes import windll  # Only exists on Windows.
@@ -206,6 +225,12 @@ upload_file_audio_va.place(x = 60, y = 430)
 #open file pdf button
 open_pdf = Button(root, text = "Choose pdf file to translate", font = ("Roboto", 12), cursor="hand2", padx=5, pady=5, command=pdf_trans)
 open_pdf.place(x = 320, y = 385)
+
+# export txt icon
+export_icon = PhotoImage(file="res/export.png")
+icon_new = export_icon.subsample(16, 16)
+txt_export = Button(root, text = "", image = icon_new, compound = LEFT, cursor="hand2", command= export_to_txt)
+txt_export.place(x=950, y=385)
 
 # loop 
 root.mainloop()
