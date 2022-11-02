@@ -92,11 +92,11 @@ def upload_file_audio():
     tf = filedialog.askopenfilename(initialdir="C:/", title="Open file", filetypes=(("Audio Files", "*.mp3"),))
     tf = open(tf, 'r')
     sound = AudioSegment.from_mp3(tf.name)
-    sound.export("img_and_test/transcript.wav", format="wav")
+    sound.export("res/transcript.wav", format="wav")
 
 
 # transcribe audio file                                                         
-    AUDIO_FILE = "img_and_test/transcript.wav"
+    AUDIO_FILE = "res/transcript.wav"
     s = ""                                       
     r = sr.Recognizer()
     with sr.AudioFile(AUDIO_FILE) as source:
@@ -115,7 +115,7 @@ root.geometry("1080x500")
 root.resizable(False, False)
 root.configure(background="white")
 
-icon_img = PhotoImage(file = "img_and_test/icon.png")
+icon_img = PhotoImage(file = "res/icon.png")
 root.iconphoto(False, icon_img)
 
 language = googletrans.LANGUAGES
@@ -155,7 +155,7 @@ scrollbar1.configure(command=text1.yview)
 text1.configure(yscrollcommand=scrollbar1.set)
 
 # speaker button 1
-speaker1_icon = PhotoImage(file="img_and_test/speaker.png")
+speaker1_icon = PhotoImage(file="res/speaker.png")
 photoimage1 = speaker1_icon.subsample(10, 10)
 speaker1 = Button(root, text = "", image = photoimage1, compound = LEFT, cursor="hand2", command=speak_text1)
 speaker1.place(x=60, y=385)
@@ -176,7 +176,7 @@ text2.configure(yscrollcommand=scrollbar2.set)
 
 
 #speaker button 2
-speaker2_icon = PhotoImage(file="img_and_test/speaker.png")
+speaker2_icon = PhotoImage(file="res/speaker.png")
 photoimage2 = speaker2_icon.subsample(10, 10)
 speaker2 = Button(root, text = "", image = photoimage2, compound = LEFT, cursor="hand2", command=speak_text2)
 speaker2.place(x=600, y=385)
